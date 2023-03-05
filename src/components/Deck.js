@@ -1,16 +1,14 @@
-import Flashcard from "./Flashcard"; 
+import Flashcard from "./Flashcard";
+import cards from "../cards"
 
 export default function Deck(){
     return (
         <>
-        <Flashcard/>
-        <Flashcard/>
-        <Flashcard/>
-        <Flashcard/>
-        <Flashcard/>
-        <Flashcard/>
-        <Flashcard/>
-        <Flashcard/>
+       {cards.map((card,index) => 
+       <Flashcard key={index} 
+       pergunta={card.question} 
+       resposta={card.answer} 
+       index={index}/>)}
         </>
     );
 }
