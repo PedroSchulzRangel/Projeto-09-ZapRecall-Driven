@@ -20,7 +20,6 @@ flex-direction: column;
 align-items: center;
 background-color: #fb6b6b;
 border: 1px solid #dbdbdb;
-height: 1000px;
 `
 const ContainerTitulo = styled.div`
 display: flex;
