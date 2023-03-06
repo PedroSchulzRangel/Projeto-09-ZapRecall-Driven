@@ -21,4 +21,4 @@ font-weight: 400;
 font-size: 18px;
 line-height: 21.6px;
 color: #333333;
-`
+`;
