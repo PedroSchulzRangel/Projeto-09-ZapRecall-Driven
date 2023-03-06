@@ -38,18 +38,22 @@ export default function Flashcard({pergunta, resposta, card, index, cardsRespond
     }
 
     return (
-        <div>
+        <div data-test="flashcard">
             <ContainerFraseInicial 
             desabilitado={desabilitado} 
             status={status} 
             cardsRespondidos={cardsRespondidos}
             card ={card}
             habilitarFraseInicial={habilitarFraseInicial}>
-                Pergunta {index + 1}
-                <button 
+                <h3 data-test="flashcard-text">Pergunta {index + 1}</h3>
+                <button
+                data-test="play-btn"
                 onClick={() => setDesabilitado(true)} 
                 disabled={desabilitado}>
-                    <img src={cardsRespondidos.includes(card)? 
+                    <img data-test={cardsRespondidos.includes(card)?
+                        (status === "incorreto"? "no-icon": (status === "correto com esforço"? "partial-icon" : "zap-icon"))
+                        : ""}
+                        src={cardsRespondidos.includes(card)?
                         (status === "incorreto"? iconeErro : (status === "correto com esforço"? iconeQuase : iconeCerto))
                         : setaPlay} alt="icone"/>
                     </button> 
@@ -57,18 +61,18 @@ export default function Flashcard({pergunta, resposta, card, index, cardsRespond
             <ContainerPergunta desabilitado={desabilitado} 
             habilitarResposta={habilitarResposta}
             >
-                <TextoPergunta>{pergunta}</TextoPergunta>
-                <ImagemSetaVirar onClick={() => setHabilitarResposta(true)} src={setaVirar} alt="seta-virar"/>
+                <TextoPergunta data-test="flashcard-text">{pergunta}</TextoPergunta>
+                <ImagemSetaVirar data-test="turn-btn" onClick={() => setHabilitarResposta(true)} src={setaVirar} alt="seta-virar"/>
             </ContainerPergunta>
             <ContainerResposta 
             habilitarResposta={habilitarResposta}
             habilitarFraseInicial={habilitarFraseInicial}
             >
-                <TextoResposta>{resposta}</TextoResposta>
+                <TextoResposta data-test="flashcard-text">{resposta}</TextoResposta>
                 <ContainerBotoes>
-                    <BotaoNaoLembrei onClick={incorreto}>Não lembrei</BotaoNaoLembrei>
-                    <BotaoQuaseNaoLembrei onClick={corretoComEsforço}>Quase não lembrei</BotaoQuaseNaoLembrei>
-                    <BotaoZap onClick={correto}>Zap!</BotaoZap>
+                    <BotaoNaoLembrei data-test="no-btn" onClick={incorreto}>Não lembrei</BotaoNaoLembrei>
+                    <BotaoQuaseNaoLembrei data-test="partial-btn" onClick={corretoComEsforço}>Quase não lembrei</BotaoQuaseNaoLembrei>
+                    <BotaoZap data-test="zap-btn" onClick={correto}>Zap!</BotaoZap>
                 </ContainerBotoes>
             </ContainerResposta>
         </div>

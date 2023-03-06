@@ -3,7 +3,7 @@ import cards from '../cards';
 
 export default function CardsConcluidos({cardsRespondidos}){
     return (
-        <ContainerConcluidos>
+        <ContainerConcluidos data-test="footer">
         {cardsRespondidos.length}/{cards.length} CONCLUÍDOS
         </ContainerConcluidos>
     );
