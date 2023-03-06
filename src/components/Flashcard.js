@@ -1,28 +1,74 @@
 import styled from 'styled-components';
-import setaPlay from "../assets/seta_play.png"
-import setaVirar from "../assets/seta_virar.png"
+import setaPlay from "../assets/seta_play.png";
+import setaVirar from "../assets/seta_virar.png";
+import iconeCerto from "../assets/icone_certo.png";
+import iconeQuase from "../assets/icone_quase.png";
+import iconeErro from "../assets/icone_erro.png";
 import { useState } from "react";
 
 export default function Flashcard({pergunta, resposta, card, index, cardsRespondidos, setCardsRespondidos}){
     
     const [desabilitado, setDesabilitado] = useState(false);
+    const [habilitarResposta, setHabilitarResposta] = useState(false);
+    const [status,setStatus] = useState("");
+    const [habilitarFraseInicial, setHabilitarFraseInicial] = useState(false);
+
+    function incorreto (){
+        setStatus("incorreto");
+        alterarEstadoCardsRespondidos();
+        setHabilitarFraseInicial(true);
+    }
+
+    function corretoComEsforço(){
+        setStatus("correto com esforço");
+        alterarEstadoCardsRespondidos();
+        setHabilitarFraseInicial(true);
+    }
+
+    function correto(){
+        setStatus("correto");
+        alterarEstadoCardsRespondidos();
+        setHabilitarFraseInicial(true);
+    }
+
+    function alterarEstadoCardsRespondidos(){
+        if(!cardsRespondidos.includes(card)){
+            setCardsRespondidos([...cardsRespondidos, card]);
+        }
+    }
 
     return (
         <div>
-            <ContainerFraseInicial desabilitado={desabilitado}>
+            <ContainerFraseInicial 
+            desabilitado={desabilitado} 
+            status={status} 
+            cardsRespondidos={cardsRespondidos}
+            card ={card}
+            habilitarFraseInicial={habilitarFraseInicial}>
                 Pergunta {index + 1}
-                <button onClick={() => setDesabilitado(true)} disabled={desabilitado}><img src={setaPlay} alt="seta-play"/></button> 
+                <button 
+                onClick={() => setDesabilitado(true)} 
+                disabled={desabilitado}>
+                    <img src={cardsRespondidos.includes(card)? 
+                        (status === "incorreto"? iconeErro : (status === "correto com esforço"? iconeQuase : iconeCerto))
+                        : setaPlay} alt="icone"/>
+                    </button> 
             </ContainerFraseInicial>
-            <ContainerPergunta desabilitado={desabilitado} >
+            <ContainerPergunta desabilitado={desabilitado} 
+            habilitarResposta={habilitarResposta}
+            >
                 <TextoPergunta>{pergunta}</TextoPergunta>
-                <ImagemSetaVirar src={setaVirar} alt="seta-virar"/>
+                <ImagemSetaVirar onClick={() => setHabilitarResposta(true)} src={setaVirar} alt="seta-virar"/>
             </ContainerPergunta>
-            <ContainerResposta desabilitado={desabilitado}>
+            <ContainerResposta 
+            habilitarResposta={habilitarResposta}
+            habilitarFraseInicial={habilitarFraseInicial}
+            >
                 <TextoResposta>{resposta}</TextoResposta>
                 <ContainerBotoes>
-                    <BotaoNaoLembrei>Não lembrei</BotaoNaoLembrei>
-                    <BotaoQuaseNaoLembrei>Quase não lembrei</BotaoQuaseNaoLembrei>
-                    <BotaoZap>Zap!</BotaoZap>
+                    <BotaoNaoLembrei onClick={incorreto}>Não lembrei</BotaoNaoLembrei>
+                    <BotaoQuaseNaoLembrei onClick={corretoComEsforço}>Quase não lembrei</BotaoQuaseNaoLembrei>
+                    <BotaoZap onClick={correto}>Zap!</BotaoZap>
                 </ContainerBotoes>
             </ContainerResposta>
         </div>
@@ -30,7 +76,8 @@ export default function Flashcard({pergunta, resposta, card, index, cardsRespond
 }
 
 const ContainerFraseInicial = styled.div`
-display: ${props => props.desabilitado? "none":"flex"};
+display: ${props => props.desabilitado? 
+(props.habilitarFraseInicial? "flex": "none"):"flex"};
 justify-content: space-between;
 align-items: center;
 width: 300px;
@@ -45,7 +92,21 @@ font-family: 'Recursive', sans-serif;
 font-size: 16px;
 font-weight: 700;
 line-height: 19.2px;
-color: #333333;
+color: ${props => {
+    if(props.status === "incorreto"){
+        return "#ff3030";
+    }
+    else if(props.status === "correto com esforço"){
+        return "#ff922e";
+    }
+    else if(props.status === "correto"){
+        return "#2FBE34";
+    }
+    else{
+        return "#333333";
+    }
+}};
+text-decoration: ${props => (props.cardsRespondidos).includes(props.card)? "line-through": "initial"}
 `
 const ContainerPergunta = styled.div`
 width: 299px;
@@ -56,7 +117,7 @@ box-shadow: 0px 4px 5px 0px #00000026;
 margin-bottom: 25px;
 padding: 18px 15px 6px;
 position: relative;
-display: ${props => props.desabilitado? "":"none"};
+display: ${props => props.desabilitado? (props.habilitarResposta? "none": ""):"none"};
 `
 const TextoPergunta = styled.h3`
 width: 112px;
@@ -88,7 +149,7 @@ padding-top: 18px;
 padding-left: 15px;
 padding-right: 12px;
 position: relative;
-display: none;
+display: ${props => props.habilitarResposta? (props.habilitarFraseInicial? "none" : ""): "none"};
 `
 const TextoResposta = styled.h3`
 font-family: 'Recursive', sans-serif;

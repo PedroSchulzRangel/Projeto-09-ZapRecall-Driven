@@ -8,7 +8,7 @@ const [cardsRespondidos, setCardsRespondidos] = useState([]);
   return (
     <div>
       <GlobalStyle/>
-      <Corpo/>
+      <Corpo cardsRespondidos={cardsRespondidos} setCardsRespondidos={setCardsRespondidos}/>
       <CardsConcluidos cardsRespondidos={cardsRespondidos}/>
     </div>
   );
