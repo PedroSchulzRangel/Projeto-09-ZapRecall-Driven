@@ -6,11 +6,12 @@ import iconeQuase from "../assets/icone_quase.png";
 import iconeErro from "../assets/icone_erro.png";
 import { useState } from "react";
 
-export default function Flashcard({pergunta, resposta, card, index, cardsRespondidos, setCardsRespondidos}){   
+export default function Flashcard({pergunta, resposta, card, index, cardsRespondidos, setCardsRespondidos}){
     const [desabilitado, setDesabilitado] = useState(false);
     const [habilitarResposta, setHabilitarResposta] = useState(false);
     const [status,setStatus] = useState("");
     const [habilitarFraseInicial, setHabilitarFraseInicial] = useState(false);
+    const mensagem = "correto com esforço";
 
     function incorreto (){
         setStatus("incorreto");
@@ -19,7 +20,6 @@ export default function Flashcard({pergunta, resposta, card, index, cardsRespond
     }
 
     function corretoComEsforço(){
-        const mensagem = "correto com esforço"
         setStatus(mensagem);
         alterarEstadoCardsRespondidos();
         setHabilitarFraseInicial(true);
@@ -105,7 +105,9 @@ color: ${props => {
         return "#2FBE34";
     } else{
         return "#333333";
-    }}};
+    }
+    }
+    };
 text-decoration: ${props => (props.cardsRespondidos).includes(props.card)? "line-through": "initial"};
 `;
 const ContainerPergunta = styled.div`
