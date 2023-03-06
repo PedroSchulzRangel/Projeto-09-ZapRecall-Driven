@@ -2,14 +2,14 @@ import Deck from "./Deck";
 import styled from 'styled-components';
 import logo from "../assets/logo.png"
 
-export default function Corpo(){
+export default function Corpo({cardsRespondidos, setCardsRespondidos}){
     return (
         <ContainerCorpo>
             <ContainerTitulo>
                 <LogoDoApp src={logo} alt="logo-do-app"/>
                 <TituloDoApp>ZapRecall</TituloDoApp>
             </ContainerTitulo>
-            <Deck/>
+            <Deck cardsRespondidos={cardsRespondidos} setCardsRespondidos={setCardsRespondidos}/>
         </ContainerCorpo>
     );
 }

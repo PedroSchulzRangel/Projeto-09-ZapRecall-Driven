@@ -1,19 +1,23 @@
 import styled from 'styled-components';
 import setaPlay from "../assets/seta_play.png"
 import setaVirar from "../assets/seta_virar.png"
+import { useState } from "react";
 
-export default function Flashcard({pergunta, resposta, index}){
+export default function Flashcard({pergunta, resposta, card, index, cardsRespondidos, setCardsRespondidos}){
+    
+    const [desabilitado, setDesabilitado] = useState(false);
+
     return (
         <div>
-            <ContainerFraseInicial>
+            <ContainerFraseInicial desabilitado={desabilitado}>
                 Pergunta {index + 1}
-                <img src={setaPlay} alt="seta-play"/> 
+                <button onClick={() => setDesabilitado(true)} disabled={desabilitado}><img src={setaPlay} alt="seta-play"/></button> 
             </ContainerFraseInicial>
-            <ContainerPergunta >
+            <ContainerPergunta desabilitado={desabilitado} >
                 <TextoPergunta>{pergunta}</TextoPergunta>
                 <ImagemSetaVirar src={setaVirar} alt="seta-virar"/>
             </ContainerPergunta>
-            <ContainerResposta>
+            <ContainerResposta desabilitado={desabilitado}>
                 <TextoResposta>{resposta}</TextoResposta>
                 <ContainerBotoes>
                     <BotaoNaoLembrei>Não lembrei</BotaoNaoLembrei>
@@ -26,7 +30,7 @@ export default function Flashcard({pergunta, resposta, index}){
 }
 
 const ContainerFraseInicial = styled.div`
-display: flex;
+display: ${props => props.desabilitado? "none":"flex"};
 justify-content: space-between;
 align-items: center;
 width: 300px;
@@ -42,7 +46,6 @@ font-size: 16px;
 font-weight: 700;
 line-height: 19.2px;
 color: #333333;
-display: none;
 `
 const ContainerPergunta = styled.div`
 width: 299px;
@@ -53,7 +56,7 @@ box-shadow: 0px 4px 5px 0px #00000026;
 margin-bottom: 25px;
 padding: 18px 15px 6px;
 position: relative;
-display: none;
+display: ${props => props.desabilitado? "":"none"};
 `
 const TextoPergunta = styled.h3`
 width: 112px;
@@ -85,6 +88,7 @@ padding-top: 18px;
 padding-left: 15px;
 padding-right: 12px;
 position: relative;
+display: none;
 `
 const TextoResposta = styled.h3`
 font-family: 'Recursive', sans-serif;

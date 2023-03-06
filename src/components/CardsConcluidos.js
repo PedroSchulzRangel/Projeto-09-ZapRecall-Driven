@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import cards from '../cards';
 
-export default function CardsConcluidos(){
+export default function CardsConcluidos({cardsRespondidos}){
     return (
         <ContainerConcluidos>
-        0/8 CONCLUÍDOS
+        {cardsRespondidos.length}/{cards.length} CONCLUÍDOS
         </ContainerConcluidos>
     );
 }
