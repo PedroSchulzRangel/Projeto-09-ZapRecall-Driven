@@ -51,10 +51,10 @@ export default function Flashcard({pergunta, resposta, card, index, cardsRespond
                 onClick={() => setDesabilitado(true)}
                 disabled={desabilitado}>
                     <img data-test={cardsRespondidos.includes(card)?
-                        (status === "incorreto"? "no-icon": (status === "correto com esforço"? "partial-icon" : "zap-icon"))
+                        (status === "incorreto"? "no-icon": (status === mensagem? "partial-icon" : "zap-icon"))
                         : ""}
                         src={cardsRespondidos.includes(card)?
-                        (status === "incorreto"? iconeErro : (status === "correto com esforço"? iconeQuase : iconeCerto))
+                        (status === "incorreto"? iconeErro : (status === mensagem? iconeQuase : iconeCerto))
                         : setaPlay} alt="icone"/>
                     </button>
             </ContainerFraseInicial>
